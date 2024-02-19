@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookProgram
+namespace BookProgram.Models
 {
     public class ApiBookResponse
     {
-        public Book[] items { get; set; }
+        public Book[] Items { get; set; }
     }
 }

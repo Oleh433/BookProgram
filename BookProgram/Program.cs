@@ -1,4 +1,6 @@
-﻿using LoggingSim;
+﻿using BookProgram.Models;
+using BookProgram.Services;
+using LoggingSim;
 
 namespace BookProgram
 {
@@ -11,9 +13,11 @@ namespace BookProgram
 
             FileLogger logger = new FileLogger(new FileWriter("C:\\Books\\BooksLogFile.txt"));
 
+            Console.WriteLine("Type your API key");
+
             try
             {
-                GoogleBooksAPIService serv = new GoogleBooksAPIService("AIzaSyCdWxFfLcu9xfIqRaAZ5Sr3vxo9cawBOQQ");
+                GoogleBooksAPIService serv = new GoogleBooksAPIService(Console.ReadLine(), logger);
                 ApiBookResponse books = new();
 
                 while (isProgramActive)
@@ -25,12 +29,12 @@ namespace BookProgram
                     {
                         case 1:
                             Console.WriteLine("Type the name of the book");
-                            books = await serv.GetBookByName(Console.ReadLine(), logger);
+                            books = await serv.GetBookByName(Console.ReadLine());
                             isProgramActive = true;
                             break;
                         case 2:
                             Console.WriteLine("Type id of the book");
-                            books = await serv.GetBookById(Console.ReadLine(), logger);
+                            books = await serv.GetBookById(Console.ReadLine());
                             isProgramActive = true;
                             break;
                         case 0:
@@ -40,26 +44,18 @@ namespace BookProgram
 
                     if (isProgramActive)
                     {
-                        if (books.items == null)
+                        if (books.Items == null)
                         {
                             throw new NullReferenceException();
                         }
                         else
                         {
-                            Book book = books.items[0];
+                            Book book = books.Items[0];
 
                             Console.WriteLine(book.ToString());
                         }
                     }
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                logger.LogError(ex.Message);
-            }
-            catch (NullReferenceException ex)
-            {
-                logger.LogError(ex.Message);
             }
             catch (Exception ex)
             {

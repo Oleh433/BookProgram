@@ -5,11 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BookProgram
+namespace BookProgram.Models
 {
     public class Book
     {
-        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         public VolumeInfo VolumeInfo { get; set; }
